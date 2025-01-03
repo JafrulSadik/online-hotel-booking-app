@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const HotelCard = () => {
   return (
-    <Link href="/details" className="block group">
+    <Link href="/hotels/1" className="block group">
       <div>
         <div className="relative">
           <img
