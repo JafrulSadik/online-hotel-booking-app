@@ -43,4 +43,4 @@ const hotelSchema = new Schema({
     }
 }, {timestamps : true})
 
-export default Hotel = mongoose.models.Hotel || mongoose.model("Hotel", hotelSchema)
+export const Hotel = mongoose.models.Hotel || mongoose.model("Hotel", hotelSchema)

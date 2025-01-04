@@ -1,11 +1,13 @@
 "use client";
 import { useState } from "react";
-import { FaPencilAlt, FaSave } from "react-icons/fa";
 import { FaBed, FaDoorOpen, FaPerson } from "react-icons/fa6";
+import Amenities from "./Amenities";
+import EditableField from "./EditableField";
 import ImageGellery from "./ImageGellery";
+import Publish from "./Publish";
 
-const CreateHotel = () => {
-  const [hotel, setHotel] = useState({
+const CreateHotel = ({ session, lang }) => {
+  const [hotelInfo, setHotelInfo] = useState({
     name: "",
     location: "",
     price: "",
@@ -15,51 +17,107 @@ const CreateHotel = () => {
     description: "",
   });
 
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState(["", "", "", "", ""]);
+  const [editField, setEditField] = useState(null);
+
+  const onSetImages = (index, link) => {
+    const newImages = [...images];
+    newImages[index] = link;
+    setImages(newImages);
+  };
+
+  const handleEditClick = (field) => {
+    setEditField(field);
+  };
+
+  const handleSave = (field, value) => {
+    setHotelInfo({ ...hotelInfo, [field]: value });
+    setEditField(null);
+  };
 
   return (
     <>
-      <button className="flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:brightness-90 absolute top-4 right-4">
-        <FaSave className="mr-2" />
-        Publish
-      </button>
-      {/* <!-- Property Title and Rating --> */}
+      <Publish
+        images={images}
+        hotelInfo={hotelInfo}
+        session={session}
+        lang={lang}
+      />
+
       <div className="mb-6">
         <span className="flex items-center">
-          <h1
-            className="text-3xl font-bold mb-2 text-zinc-500 edit"
-            id="propertyName"
+          <EditableField
+            key={"name"}
+            fieldKey={"name"}
+            value={hotelInfo.name}
+            isEditing={editField === "name"}
+            onEdit={handleEditClick}
+            onSave={handleSave}
           >
-            {hotel.name || "Property Name"}
-          </h1>
-          <FaPencilAlt className="text-gray-400 size-4 ml-3 cursor-pointer text-sm hover:scale-110 transition-all" />
+            <h1
+              className="text-3xl font-bold mb-2 text-zinc-500 edit"
+              id="propertyName"
+            >
+              {hotelInfo.name || "Property Name"}
+            </h1>
+          </EditableField>
         </span>
         <div className="flex items-center text-gray-600">
-          <span className="edit text-gray-600">
-            {hotel.location || "Property location"}{" "}
-          </span>
-          <FaPencilAlt className="text-gray-400 size-4 ml-3 cursor-pointer text-sm hover:scale-110 transition-all" />
+          <EditableField
+            key={"location"}
+            fieldKey={"location"}
+            value={hotelInfo.location}
+            isEditing={editField === "location"}
+            onEdit={handleEditClick}
+            onSave={handleSave}
+          >
+            <span className="edit text-gray-600">
+              {hotelInfo.location || "Property location"}{" "}
+            </span>
+          </EditableField>
         </div>
       </div>
 
-      <ImageGellery />
+      <ImageGellery images={images} onSetImages={onSetImages} />
 
       <div className="flex mb-4 gap-2">
         <div className="flex items-center space-x-3">
-          <span className="text-xl font-bold text-gray-500">
-            {hotel.price ? hotel.price + "$" : "Price in USD"}
-          </span>
-          <FaPencilAlt className="text-gray-400 size-4  cursor-pointer text-sm hover:scale-110 transition-all" />
+          <EditableField
+            key={"price"}
+            type={"number"}
+            min={1}
+            fieldKey={"price"}
+            value={hotelInfo.price}
+            isEditing={editField === "price"}
+            onEdit={handleEditClick}
+            onSave={handleSave}
+          >
+            <span className="text-xl font-bold text-gray-500">
+              {hotelInfo.price ? hotelInfo.price + "$" : "Price in USD"}
+            </span>
+          </EditableField>
         </div>
         <span className="text-gray-500 ml-1">per night</span>
       </div>
 
       <div className="flex items-center mb-4 text-gray-500">
         {/* <!-- Stock --> */}
-        <span>
-          {hotel.rooms ? `Available ${hotel.rooms} rooms` : "Available X rooms"}
-        </span>
-        <FaPencilAlt className="text-gray-400 size-4 ml-3 cursor-pointer text-sm hover:scale-110 transition-all" />
+        <EditableField
+          key={"rooms"}
+          fieldKey={"rooms"}
+          type={"number"}
+          min={1}
+          value={hotelInfo.rooms}
+          isEditing={editField === "rooms"}
+          onEdit={handleEditClick}
+          onSave={handleSave}
+        >
+          <span>
+            {hotelInfo.rooms
+              ? `Available ${hotelInfo.rooms} rooms`
+              : "Available X rooms"}
+          </span>
+        </EditableField>
       </div>
 
       {/* <!-- Property Details --> */}
@@ -70,18 +128,48 @@ const CreateHotel = () => {
             <div className="grid grid-cols-1 gap-4 text-gray-600">
               <div className="flex items-center gap-2">
                 <FaPerson />
-                <span>{hotel.guests || "How many Guest can Stay?"}</span>
-                <FaPencilAlt className="text-gray-400 size-4 ml-3 cursor-pointer text-sm hover:scale-110 transition-all" />
+                <EditableField
+                  key={"guests"}
+                  fieldKey={"guests"}
+                  type={"number"}
+                  min={1}
+                  value={hotelInfo.guests}
+                  isEditing={editField === "guests"}
+                  onEdit={handleEditClick}
+                  onSave={handleSave}
+                >
+                  <span>{hotelInfo.guests || "How many Guest can Stay?"}</span>
+                </EditableField>
               </div>
               <div className="flex items-center gap-2">
                 <FaDoorOpen />
-                <span>{hotel.bedrooms || "How many Bedrooms ?"} </span>
-                <FaPencilAlt className="text-gray-400 size-4 ml-3 cursor-pointer text-sm hover:scale-110 transition-all" />
+                <EditableField
+                  key={"bedrooms"}
+                  fieldKey={"bedrooms"}
+                  type={"number"}
+                  min={1}
+                  value={hotelInfo.bedrooms}
+                  isEditing={editField === "bedrooms"}
+                  onEdit={handleEditClick}
+                  onSave={handleSave}
+                >
+                  <span>{hotelInfo.bedrooms || "How many Bedrooms ?"} </span>
+                </EditableField>
               </div>
               <div className="flex items-center gap-2">
                 <FaBed />
-                <span>{hotel.beds || "How many beds available ?"}</span>
-                <FaPencilAlt className="text-gray-400 size-4 ml-3 cursor-pointer text-sm hover:scale-110 transition-all" />
+                <EditableField
+                  key={"beds"}
+                  fieldKey={"beds"}
+                  type={"number"}
+                  min={1}
+                  value={hotelInfo.beds}
+                  isEditing={editField === "beds"}
+                  onEdit={handleEditClick}
+                  onSave={handleSave}
+                >
+                  <span>{hotelInfo.beds || "How many beds available ?"}</span>
+                </EditableField>
               </div>
             </div>
           </div>
@@ -90,47 +178,26 @@ const CreateHotel = () => {
           <div className="mb-6">
             <h3 className="text-xl font-semibold mb-4">About this place</h3>
             <div className="flex items-center">
-              <p className="text-gray-600 leading-relaxed edit">
-                Write a short description about this place
-              </p>
-              <FaPencilAlt className="text-gray-400 size-4 ml-3 cursor-pointer text-sm hover:scale-110 transition-all" />
+              <EditableField
+                key={"description"}
+                fieldKey={"description"}
+                value={hotelInfo.description}
+                isEditing={editField === "description"}
+                onEdit={handleEditClick}
+                onSave={handleSave}
+                textarea={true}
+              >
+                <p className="text-gray-600 leading-relaxed edit">
+                  {!hotelInfo.description
+                    ? "Write a short description about this place"
+                    : hotelInfo.description}
+                </p>
+              </EditableField>
             </div>
           </div>
 
           {/* <!-- Amenities --> */}
-          <div>
-            <h3 className="text-xl font-semibold mb-4">
-              What this place offers
-            </h3>
-            <div className="grid grid-cols-2 gap-4" id="amenities">
-              <div className="flex items-center gap-2 cursor-pointer">
-                <i className="fa-solid fa-umbrella-beach"></i>
-                <span>Beach access</span>
-              </div>
-              <div className="flex items-center gap-2 cursor-pointer">
-                <i className="fa-solid fa-person-swimming"></i>
-                <span>Private pool</span>
-              </div>
-              <div className="flex items-center gap-2 cursor-pointer">
-                <i className="fa-solid fa-wifi"></i>
-                <span>Free Wi-Fi</span>
-              </div>
-              <div className="flex items-center gap-2 cursor-pointer">
-                <i className="fa-solid fa-sink"></i>
-                <span>Kitchen</span>
-              </div>
-
-              <div className="flex items-center gap-2 cursor-pointer">
-                <i className="fa-solid fa-square-parking"></i>
-                <span>Free Parking</span>
-              </div>
-
-              <div className="flex items-center gap-2 cursor-pointer">
-                <i className="fa-solid fa-dumbbell"></i>
-                <span>Fitness Center</span>
-              </div>
-            </div>
-          </div>
+          <Amenities />
         </div>
       </div>
     </>
