@@ -1,56 +1,62 @@
-const PropertyDescription = () => {
+import {
+  FaBed,
+  FaDoorOpen,
+  FaPerson,
+  FaPersonSwimming,
+  FaSink,
+  FaUmbrellaBeach,
+  FaWifi,
+} from "react-icons/fa6";
+
+const PropertyDescription = ({ hotel }) => {
   return (
     <div className="col-span-2">
       <div className="border-b pb-6 mb-6">
         <h2 className="text-2xl font-semibold mb-4">
-          Entire villa hosted by Sarah
+          {hotel?.name} hosted by {hotel?.owner?.name}
         </h2>
         <div className="grid grid-cols-3 gap-4 text-gray-600">
           <div className="flex items-center gap-2">
-            <i className="fas fa-person"></i>
-            <span>6 guests</span>
+            <FaPerson />
+            <span>{hotel?.guests} guests</span>
           </div>
           <div className="flex items-center gap-2">
-            <i className="fas fa-door-open"></i>
-            <span>3 bedrooms</span>
+            <FaDoorOpen />
+            <span>{hotel?.bedrooms} bedrooms</span>
           </div>
           <div className="flex items-center gap-2">
-            <i className="fas fa-bed"></i>
-            <span>4 beds</span>
+            <FaBed />
+            <span>{hotel?.beds} beds</span>
           </div>
         </div>
       </div>
 
       {/* <!-- Description --> */}
-      <div className="mb-6">
-        <h3 className="text-xl font-semibold mb-4">About this place</h3>
-        <p className="text-gray-700 leading-relaxed">
-          Experience luxury in this stunning beachfront villa nestled in the
-          heart of the Maldives. Our spacious 3-bedroom villa offers
-          breathtaking ocean views, private pool, and direct beach access. Enjoy
-          modern amenities, traditional Maldivian architecture, and unparalleled
-          comfort in this tropical paradise.
-        </p>
-      </div>
+      {hotel.about && (
+        <div className="mb-6">
+          <h3 className="text-xl font-semibold mb-4">About this place</h3>
+          <p className="text-gray-700 leading-relaxed">{hotel.about}</p>
+        </div>
+      )}
 
       {/* <!-- Amenities --> */}
       <div>
         <h3 className="text-xl font-semibold mb-4">What this place offers</h3>
         <div className="grid grid-cols-2 gap-4">
           <div className="flex items-center gap-2">
-            <i className="fa-solid fa-umbrella-beach"></i>
+            <FaUmbrellaBeach />
             <span>Beach access</span>
           </div>
           <div className="flex items-center gap-2">
-            <i className="fa-solid fa-person-swimming"></i>
+            <FaPersonSwimming />
             <span>Private pool</span>
           </div>
           <div className="flex items-center gap-2">
-            <i className="fa-solid fa-wifi"></i>
+            <FaWifi />
             <span>Free Wi-Fi</span>
           </div>
           <div className="flex items-center gap-2">
-            <i className="fa-solid fa-sink"></i>
+            <FaSink />
             <span>Kitchen</span>
           </div>
         </div>

@@ -7,7 +7,7 @@ export const POST = async (request) =>  {
     try {
         const hashedPassword = await bcryptjs.hash(password, 10);
 
-        const userExist = await User.findOne({email, provider : "credentials"});
+        const userExist = await User.findOne({email});
 
         if(userExist){
             return new NextResponse(JSON.stringify({

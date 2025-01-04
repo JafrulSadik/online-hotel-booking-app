@@ -28,7 +28,7 @@ const LoginForm = () => {
         setError("root.random", { message: "Wrong credentials!" });
       } else {
         successToast("Logged in successfully!");
-        router.push("/");
+        router.push("/en");
       }
     } catch (error) {
       setError("root.random", { message: error.message });
