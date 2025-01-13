@@ -7,7 +7,7 @@ const ManageHotelPage = ({params}) => {
   const {lang} = params;
 
   return (
-    <div className="bg-gray-50 font-sans">
+    <div className="bg-gray-50 font-sans min-h-[calc(100vh-200px)]">
     <div className="max-w-7xl mx-auto px-4 pb-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-zinc-800">Manage Hotels</h1>

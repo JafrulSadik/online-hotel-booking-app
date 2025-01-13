@@ -1,58 +1,20 @@
-import { FaStar } from "react-icons/fa6";
-import ProfileImgDemo from "../common/ProfileImgDemo";
+import { getRatingReviewsByHotelId } from "@/db/query";
+import { getLoggedInUser } from "@/lib/auth/loggedin-user";
+import ReviewCard from "./ReviewCard";
 
-const Reviews = () => {
+const Reviews = async ({ hotelId }) => {
+  const user = await getLoggedInUser();
+  const reviews = await getRatingReviewsByHotelId(hotelId);
+
   return (
     <div className="grid grid-cols-2 gap-8">
-      {/* <!-- Review Card 1 --> */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-gray-200 rounded-full overflow-hidden">
-            <ProfileImgDemo />
-          </div>
-          <div>
-            <h4 className="font-medium">John Smith</h4>
-            <p className="text-gray-500 text-sm">December 2024</p>
-          </div>
-        </div>
-        <div className="flex items-center">
-          <FaStar className="text-yellow-500 size-5" />
-          <FaStar className="text-yellow-500 size-5" />
-          <FaStar className="text-yellow-500 size-5" />
-          <FaStar className="text-yellow-500 size-5" />
-          <FaStar className="text-yellow-500 size-5" />
-        </div>
-        <p className="text-gray-600 leading-relaxed">
-          Amazing stay! The villa exceeded our expectations. The private pool
-          and beach access were highlights of our trip. Sarah was an excellent
-          host, always responsive and helpful.
-        </p>
-      </div>
-
-      {/* <!-- Review Card 2 --> */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-gray-200 rounded-full overflow-hidden">
-            <ProfileImgDemo />
-          </div>
-          <div>
-            <h4 className="font-medium">Emma Wilson</h4>
-            <p className="text-gray-500 text-sm">November 2024</p>
-          </div>
-        </div>
-        <div className="flex items-center">
-          <FaStar className="text-yellow-500 size-5" />
-          <FaStar className="text-yellow-500 size-5" />
-          <FaStar className="text-yellow-500 size-5" />
-          <FaStar className="text-yellow-500 size-5" />
-          <FaStar className="text-yellow-500 size-5" />
-        </div>
-        <p className="text-gray-600 leading-relaxed">
-          Perfect location for a family vacation. The villa was spotlessly clean
-          and well-maintained. The kitchen was fully equipped, and we loved
-          cooking meals while enjoying the ocean view.
-        </p>
-      </div>
+      {reviews?.map((review) => (
+        <ReviewCard
+          key={review?._id}
+          review={review}
+          owner={review?.userId?._id?.toString() === user?.id}
+        />
+      ))}
     </div>
   );
 };

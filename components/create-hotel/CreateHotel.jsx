@@ -50,6 +50,7 @@ const CreateHotel = ({ session, lang }) => {
             key={"name"}
             fieldKey={"name"}
             value={hotelInfo.name}
+            type={"text"}
             isEditing={editField === "name"}
             onEdit={handleEditClick}
             onSave={handleSave}
@@ -69,6 +70,7 @@ const CreateHotel = ({ session, lang }) => {
             value={hotelInfo.location}
             isEditing={editField === "location"}
             onEdit={handleEditClick}
+            type={"text"}
             onSave={handleSave}
           >
             <span className="edit text-gray-600">

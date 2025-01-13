@@ -29,12 +29,13 @@ const EditableField = ({
               ref={inputRef}
               defaultValue={value}
               onBlur={handleBlur}
-              className="border outline-primary rounded px-2 py-1 w-96 h-96"
+              rows={4}
+              className="border outline-primary rounded px-2 py-1 w-96"
               autoFocus
             />
           )}
 
-          {!textarea && type === "number" ? (
+          {!textarea && type === "number" && (
             <input
               type="number"
               ref={inputRef}
@@ -44,7 +45,9 @@ const EditableField = ({
               className="border outline-primary rounded px-2 py-1 w-32"
               autoFocus
             />
-          ) : (
+          )}
+
+          {!textarea && type === "text" && (
             <input
               type="text"
               ref={inputRef}

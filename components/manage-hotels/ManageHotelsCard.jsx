@@ -35,7 +35,7 @@ const ManageHotelsCard = ({ hotel }) => {
             >
               <FaEdit className="size-4" />
             </a>
-            <Delete />
+            <Delete hotelId={hotel?._id?.toString()} hotelName={hotel?.name} />
           </div>
         </div>
       </div>

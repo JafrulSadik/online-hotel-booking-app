@@ -1,30 +1,34 @@
-import { FaStar } from "react-icons/fa6";
+import { fetchBookingStatus } from "@/app/action/booking-actions";
+import { fetchReviewStatus } from "@/app/action/review-action";
+import { getHotelByHotelId, getHotelRating } from "@/db/query";
+import { getLoggedInUser } from "@/lib/auth/loggedin-user";
+import ReviewHeader from "./ReviewHeader";
 import Reviews from "./Reviews";
 
-const ReviewSection = () => {
+const ReviewSection = async ({ hotelId }) => {
+  const [user, hotel, hasReviewed, hasBookedRoom, hotelRating] =
+    await Promise.all([
+      getLoggedInUser(),
+      getHotelByHotelId(hotelId),
+      fetchReviewStatus(hotelId),
+      fetchBookingStatus(hotelId),
+      getHotelRating(hotelId),
+    ]);
+
+  const isHotelCreator = hotel.owner._id.toString() === user?.id;
+
   return (
     <div className="max-w-7xl mx-auto px-6 py-12 border-t">
-      {/* <!-- Reviews Header with Average Rating --> */}
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-4">
-          <h2 className="text-2xl font-semibold">Reviews</h2>
-          <div className="flex items-center">
-            <FaStar className="text-yellow-500 size-5 mr-2" />
-            <span className="text-xl font-semibold">4.9</span>
-            <span className="mx-2">·</span>
-            <span className="text-gray-600">2 reviews</span>
-          </div>
-        </div>
+      <ReviewHeader
+        rating={hotelRating.rating}
+        count={hotelRating.count}
+        hotelId={hotelId}
+        hasBookedRoom={hasBookedRoom}
+        hasReviewed={hasReviewed}
+        isHotelCreator={isHotelCreator}
+      />
 
-        <a
-          href="./ReviewModal.html"
-          className="px-4 py-2 border border-gray-900 rounded-lg hover:bg-gray-100"
-        >
-          Write a Review
-        </a>
-      </div>
-
-      <Reviews />
+      <Reviews hotelId={hotelId} />
     </div>
   );
 };

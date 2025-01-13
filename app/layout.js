@@ -1,5 +1,4 @@
 import { dbConnect } from "@/services/dbConnection";
-import { SessionProvider } from "next-auth/react";
 import { ToastContainer } from "react-toastify";
 import "./globals.css";
 
@@ -13,9 +12,7 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
         <body>
-          <SessionProvider>    
           {children}
-          </SessionProvider>
           <ToastContainer/>
         </body>
     </html>

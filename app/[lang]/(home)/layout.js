@@ -1,11 +1,14 @@
 import Footer from "@/components/common/Footer";
 import Navbar from "@/components/common/Navbar";
+import { SessionProvider } from "next-auth/react";
 
 export default async function HomeRootLayout({ children, params }) {
   const {lang} = params;
   return (
     <>
-        <Navbar lang={lang}/>
+        <SessionProvider>
+          <Navbar lang={lang}/>
+        </SessionProvider>
         {children}
         <Footer/>
     </>

@@ -3,11 +3,9 @@ import mongoose, { Schema } from "mongoose"
 const userSchema = new Schema({
     fname : {
         type : String,
-        required : true,
     },
     lname : {
         type : String,
-        required : true
     },
     name : {
         type : String,
