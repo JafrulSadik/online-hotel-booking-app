@@ -12,8 +12,12 @@ const ManageHotelsCard = ({ hotel }) => {
           className="w-full h-48 object-cover rounded-md transition-all hover:scale-105"
         />
         <div className="absolute flex items-center top-4 right-4 bg-white/80 px-3 py-1 rounded-full text-sm font-semibold">
-          <FaStar className="text-yellow-500 mr-1" />
-          4.8
+          <FaStar
+            className={`${
+              hotel?.avgRating > 0 ? "text-yellow-500" : "text-gray-300"
+            } mr-1`}
+          />
+          {hotel?.avgRating?.toFixed(1)}
         </div>
       </div>
       <div className="p-4">
