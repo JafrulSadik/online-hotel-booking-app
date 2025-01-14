@@ -22,6 +22,11 @@ const MenuList = ({ lang, user, handleSignOut, onShowMenu }) => {
     <ul>
       <MenuItem href={`/${lang}`} label={user.name} onShowMenu={onShowMenu} />
       <MenuItem
+        href={`/${lang}/user/manage-hotels/create`}
+        label="Create Hotel"
+        onShowMenu={onShowMenu}
+      />
+      <MenuItem
         href={`/${lang}/user/manage-hotels`}
         label="Manage Hotels"
         onShowMenu={onShowMenu}

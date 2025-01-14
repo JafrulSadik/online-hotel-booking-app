@@ -11,7 +11,8 @@ export default async function RootLayout({ children }) {
   await dbConnect()
   return (
     <html lang="en">
-        <body>
+        <body className="relative">
+          <div id="modal-root-content" className="absolute"/>
           {children}
           <ToastContainer/>
         </body>

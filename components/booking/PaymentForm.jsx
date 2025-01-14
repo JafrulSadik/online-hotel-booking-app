@@ -1,6 +1,6 @@
 "use client";
 
-import { hotelBooking } from "@/app/action/hotel-actions";
+import { hotelBooking } from "@/app/action/booking-actions";
 import { successToast } from "@/utils/notify";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";

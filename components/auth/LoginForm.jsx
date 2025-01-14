@@ -3,10 +3,13 @@
 import { successToast } from "@/utils/notify";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { CgSpinner } from "react-icons/cg";
 import Field from "./Field";
 
 const LoginForm = () => {
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -17,6 +20,7 @@ const LoginForm = () => {
   const router = useRouter();
 
   const onSubmit = async (formData) => {
+    setLoading(true);
     try {
       const response = await signIn("credentials", {
         email: formData.email,
@@ -28,11 +32,13 @@ const LoginForm = () => {
         setError("root.random", { message: "Wrong credentials!" });
       } else {
         successToast("Logged in successfully!");
-        router.push("/en");
+        router.back();
       }
     } catch (error) {
       setError("root.random", { message: error.message });
     }
+
+    setLoading(false);
   };
 
   return (
@@ -69,8 +75,10 @@ const LoginForm = () => {
 
       <button
         type="submit"
-        className="w-full bg-primary text-white rounded-full py-3 hover:bg-primary transition"
+        disabled={loading}
+        className="w-full flex justify-center items-center gap-2 bg-primary text-white rounded-full py-3 hover:bg-primary transition"
       >
+        {loading && <CgSpinner className="animate-spin size-5" />}
         Continue
       </button>
     </form>
