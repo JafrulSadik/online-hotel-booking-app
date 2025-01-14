@@ -1,5 +1,5 @@
 "use server"
-import { createHotelReviewRating, deleteReviewById, getHotelByHotelId, getReivewById, getUserRatingAndReviewStatus } from "@/db/query";
+import { createHotelReviewRating, deleteReviewById, getHotelByHotelId, getHotelRating, getReivewById, getUserRatingAndReviewStatus, updateHotel } from "@/db/query";
 import { getLoggedInUser } from "@/lib/auth/loggedin-user";
 import { revalidatePath } from "next/cache";
 
@@ -23,6 +23,13 @@ export const addReviewOrRating = async ({hotelId, review, rating, lang}) => {
 
         const  newReview = await createHotelReviewRating({rating, review, hotelId, userId : loggedInUser.id})
 
+        const hotelRating = await getHotelRating(hotelId)
+
+        await updateHotel(hotelId, {
+            avgRating : hotelRating.rating,
+            totalReviews : hotelRating.count
+        })
+
         revalidatePath(`/${lang}/hotels/${hotelId}`)
         
         return {
@@ -45,14 +52,13 @@ export const fetchReviewStatus = async (hotelId) => {
     
     try {
         const reviewStatus = await getUserRatingAndReviewStatus(hotelId, loggedInUser.id);
-        
         return reviewStatus
     } catch (error) {
         throw new Error(error.message)
     }
 }
 
-export const deleteReview = async (reviewId) => {
+export const deleteReview = async (reviewId, hotelId) => {
     const loggedInUser = await getLoggedInUser();
 
     if(!loggedInUser){
@@ -61,7 +67,6 @@ export const deleteReview = async (reviewId) => {
 
     try {
         const review = await getReivewById(reviewId);
-
         if(!review){
             throw new Error("Review not found.")
         }
@@ -70,8 +75,13 @@ export const deleteReview = async (reviewId) => {
             throw new Error("You are not authorized to delete this review.")
         }
 
-
         await deleteReviewById(reviewId);
+        const hotelRating = await getHotelRating(hotelId)
+
+        await updateHotel(hotelId, {
+            avgRating : hotelRating.rating,
+            totalReviews : hotelRating.count
+        })
 
         revalidatePath(`/hotels/${review.hotelId}`)
         return true

@@ -8,8 +8,9 @@ import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
-const Options = ({ reviewId }) => {
+const Options = ({ reviewId, hotelId }) => {
   const [loading, setLoading] = useState(false);
+
   const handleDelete = async () => {
     setLoading(true);
     try {
@@ -19,7 +20,7 @@ const Options = ({ reviewId }) => {
       );
 
       if (response.isConfirmed) {
-        await deleteReview(reviewId);
+        await deleteReview(reviewId, hotelId);
       }
     } catch (error) {
       showErrorModal(error.message);

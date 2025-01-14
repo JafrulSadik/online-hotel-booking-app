@@ -39,9 +39,10 @@ const ReviewCard = ({ review, owner }) => {
 
       {owner && (
         <Options
-          reviewId={review?._id.toString()}
           rating={review?.rating}
           review={review?.review}
+          reviewId={review?._id.toString()}
+          hotelId={review?.hotelId.toString()}
         />
       )}
     </div>

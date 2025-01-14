@@ -1,5 +1,5 @@
 
-import CreateHotel from "@/components/create-hotel/CreateHotelOne";
+import CreateHotel from "@/components/create-hotel/CreateHotel";
 import { auth } from "@/lib/auth/auth";
 
 const CreateHotelPage = async ({params}) => {

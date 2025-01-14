@@ -1,16 +1,17 @@
-import HotelListing from "@/components/home/HotelListing"
-import Pagination from "@/components/home/Pagination"
-import HomeHotelCardSkeletonList from "@/components/skeleton/HomeHotelCardSkeletonList"
-import { Suspense } from "react"
+import HotelListing from "@/components/home/HotelListing";
+import HomeHotelCardSkeletonList from "@/components/skeleton/HomeHotelCardSkeletonList";
+import { Suspense } from "react";
 
-const HomePage = ({params}) => {
-  const {lang} = params
+const HomePage = ({params, searchParams}) => {
+  const {lang} = params;
+  const page = searchParams.page || 1;
+  const search = searchParams.search || "";
   return (
     <section className="px-6">
       <Suspense fallback={<HomeHotelCardSkeletonList/>}>
-        <HotelListing lang={lang}/>
+        <HotelListing lang={lang} page={page} searchTerm={search}/>
       </Suspense>
-      <Pagination/>
+      
     </section>
   )
 }

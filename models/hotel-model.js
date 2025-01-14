@@ -40,6 +40,17 @@ const hotelSchema = new Schema({
     owner : {
         type : Schema.Types.ObjectId,
         ref : "User"
+    },
+    avgRating : {
+        type : Number,
+        default : 0 
+    },
+    totalReviews : {
+        type : Number,
+        default : 0
+    },
+    amenities : {
+        type : [String]
     }
 }, {timestamps : true})
 

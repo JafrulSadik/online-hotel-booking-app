@@ -1,12 +1,5 @@
-import {
-  FaBed,
-  FaDoorOpen,
-  FaPerson,
-  FaPersonSwimming,
-  FaSink,
-  FaUmbrellaBeach,
-  FaWifi,
-} from "react-icons/fa6";
+import { FaBed, FaDoorOpen, FaPerson } from "react-icons/fa6";
+import Amenities from "./Amenities";
 
 const PropertyDescription = ({ hotel }) => {
   return (
@@ -31,7 +24,6 @@ const PropertyDescription = ({ hotel }) => {
         </div>
       </div>
 
-      {/* <!-- Description --> */}
       {hotel.about && (
         <div className="mb-6">
           <h3 className="text-xl font-semibold mb-4">About this place</h3>
@@ -39,28 +31,7 @@ const PropertyDescription = ({ hotel }) => {
         </div>
       )}
 
-      {/* <!-- Amenities --> */}
-      <div>
-        <h3 className="text-xl font-semibold mb-4">What this place offers</h3>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="flex items-center gap-2">
-            <FaUmbrellaBeach />
-            <span>Beach access</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <FaPersonSwimming />
-            <span>Private pool</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <FaWifi />
-            <span>Free Wi-Fi</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <FaSink />
-            <span>Kitchen</span>
-          </div>
-        </div>
-      </div>
+      <Amenities hotel={hotel} />
     </div>
   );
 };

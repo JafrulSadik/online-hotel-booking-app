@@ -15,7 +15,7 @@ const BookingCard = ({ hotelId, price, guests, rating }) => {
   const [selectedGuest, setSelectedGuest] = useState("");
   const router = useRouter();
 
-  const handleReserve = () => {
+  const handleReserve = ({ rating }) => {
     if (!checkIn) {
       setError("Check in date is required.");
       return;
@@ -52,8 +52,12 @@ const BookingCard = ({ hotelId, price, guests, rating }) => {
             <span className="text-gray-600 ml-1">per night</span>
           </div>
           <div className="flex items-center">
-            <FaStar className="text-yellow-500 mr-1" />
-            <span>5</span>
+            <FaStar
+              className={`${
+                rating > 0 ? "text-yellow-500" : "text-gray-300"
+              } mr-1`}
+            />
+            <span>{rating || "0.0"}</span>
           </div>
         </div>
 

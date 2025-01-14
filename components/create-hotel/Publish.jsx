@@ -12,7 +12,7 @@ import { useState } from "react";
 import { FaSave } from "react-icons/fa";
 import { ImSpinner6 } from "react-icons/im";
 
-const Publish = ({ images, hotelInfo, session, lang }) => {
+const Publish = ({ images, hotelInfo, amenities, session, lang }) => {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -32,42 +32,43 @@ const Publish = ({ images, hotelInfo, session, lang }) => {
       return;
     }
 
-    const response = await showConfirmationModalWithBtnName(
+    const confirmationResponse = await showConfirmationModalWithBtnName(
       "Are you sure you want to publish this hotel?",
       "Publish"
     );
 
+    if (!confirmationResponse.isConfirmed) return;
+
     setLoading(true);
 
-    if (response.isConfirmed) {
-      setLoading(true);
+    try {
+      const response = await fetch("/api/hotels", {
+        method: "POST",
+        body: JSON.stringify({
+          ...hotelInfo,
+          images: [...images],
+          amenities: [...amenities],
+          email: session.user.email,
+          path: `/${lang}/user/manage-hotels`,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-      try {
-        const response = await fetch("/api/hotels", {
-          method: "POST",
-          body: JSON.stringify({
-            ...hotelInfo,
-            images,
-            email: session.user.email,
-            path: `/${lang}/user/manage-hotels`,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          successToast(data.message);
-          router.push(`/${lang}/user/manage-hotels`);
-        } else {
-          throw new Error(response.statusText);
-        }
-      } catch (error) {
-        showErrorModal(error.message);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Something went wrong!");
       }
+
+      const data = await response.json();
+      successToast(data.message);
+      router.push(`/${lang}/user/manage-hotels`);
+    } catch (error) {
+      showErrorModal(error.message || "An unexpected error occurred.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 import { FaBars, FaLanguage } from "react-icons/fa6";
 import MenuList from "./MenuList";

@@ -71,7 +71,7 @@ export const hotelBooking = async ({ paymentDetails, bookingDetails, hotelId }) 
 
       const response = await createBooking({bookingInfo : newBooking})
 
-      await updateHotel(hotelId, "rooms", hotel.rooms - 1)
+      await updateHotel(hotelId, {rooms : hotel.rooms - 1})
 
       return {
         bookingId : response._id.toString()

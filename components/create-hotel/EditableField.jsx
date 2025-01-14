@@ -10,66 +10,48 @@ const EditableField = ({
   isEditing,
   onEdit,
   onSave,
-  textarea,
-  type,
+  textarea = false,
+  type = "text",
 }) => {
   const inputRef = useRef(null);
 
-  const handleBlur = (e) => {
-    onSave(fieldKey, e.target.value);
+  const handleSaveClick = () => {
+    if (inputRef.current) onSave(fieldKey, inputRef.current.value);
   };
 
   return (
-    <div className="flex items-center mb-2">
+    <div className="flex items-center gap-2">
       {isEditing ? (
-        <div className="flex gap-2">
-          {textarea && (
+        <div className="flex items-center gap-2">
+          {textarea ? (
             <textarea
-              type="text"
               ref={inputRef}
               defaultValue={value}
-              onBlur={handleBlur}
               rows={4}
-              className="border outline-primary rounded px-2 py-1 w-96"
+              className="border rounded px-2 py-1 w-96"
               autoFocus
             />
-          )}
-
-          {!textarea && type === "number" && (
+          ) : (
             <input
-              type="number"
               ref={inputRef}
-              min={1}
+              type={type}
               defaultValue={value}
-              onBlur={handleBlur}
-              className="border outline-primary rounded px-2 py-1 w-32"
+              className="border rounded px-2 py-1 w-32"
               autoFocus
             />
           )}
-
-          {!textarea && type === "text" && (
-            <input
-              type="text"
-              ref={inputRef}
-              defaultValue={value}
-              onBlur={handleBlur}
-              className="border outline-primary rounded px-2 py-1 w-32"
-              autoFocus
-            />
-          )}
-
           <button
-            className="flex max-h-10 items-center gap-2 px-4 py-1 bg-primary text-white rounded-lg hover:brightness-90 top-4 right-4"
-            onClick={() => onSave(fieldKey, inputRef.current.value)}
+            onClick={handleSaveClick}
+            className="flex items-center gap-2 px-4 py-1 bg-primary text-white rounded-lg hover:brightness-90"
           >
-            <FaSave /> <span>Save</span>
+            <FaSave /> Save
           </button>
         </div>
       ) : (
         <>
           {children}
-          <button onClick={() => onEdit(fieldKey)}>
-            <FaPencilAlt className="text-gray-400 size-4 ml-3 cursor-pointer text-sm hover:scale-110 transition-all" />
+          <button onClick={() => onEdit(fieldKey)} className="ml-3">
+            <FaPencilAlt className="text-gray-400 hover:scale-110 transition-transform" />
           </button>
         </>
       )}

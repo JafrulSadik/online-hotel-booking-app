@@ -1,6 +1,6 @@
 import { FaStar } from "react-icons/fa6";
 
-const Rating = ({ rating, count }) => {
+const Rating = ({ rating, totalReviews }) => {
   return (
     <div className="flex items-center text-gray-600">
       <FaStar
@@ -8,7 +8,7 @@ const Rating = ({ rating, count }) => {
       />
       <span>{rating} · </span>
       <span className="ml-2">
-        {count > 0 ? `${count} reviews` : "No reviews"}
+        {totalReviews > 0 ? `${totalReviews} reviews` : "No reviews"}
       </span>
     </div>
   );

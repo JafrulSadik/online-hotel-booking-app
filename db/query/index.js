@@ -15,15 +15,6 @@ export const getHotelsByUserInfo = async (userInfo) => {
     }
 }
 
-export const getHotels = async () => {
-    try {
-        const hotels = await Hotel.find()
-        return hotels
-    } catch (error) {
-        throw new Error("Something went wrong while fetching hotels");     
-    }
-}
-
 export const getHotelByHotelId = async (id) => {
     try {
         const hotel = await Hotel.findOne({_id : id}).populate('owner', {name : 1, _id : 1})
@@ -80,10 +71,14 @@ export const getBookingByHotelIdAndUserId = async (userId, hotelId) => {
     }
 }
 
-export const updateHotel = async (hotelId, key, value) => {
+export const updateHotel = async (hotelId, updateData) => {
     try {
-        const updateHotel = await Hotel.findByIdAndUpdate(hotelId, { [key] : value})
-        return updateHotel
+        const updatedHotel = await Hotel.findByIdAndUpdate(
+            hotelId,
+            { $set: updateData },
+            { new: true, runValidators: true }
+          ).lean()
+        return updatedHotel
     } catch (error) {
         throw new Error("Something went wrong while creating booking;")
     }
@@ -163,8 +158,8 @@ export const getHotelRating = async (hotelId) => {
 
         const rating = reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
         return {
-            rating : rating > 0 ? rating.toFixed(1) : 0.0,
-            count : reviews.length || "No reviews"
+            rating : rating > 0 ? rating.toFixed(1) : 0,
+            count : reviews.length || 0
         }
     } catch (error) {
         throw new Error("Something went wrong while fetching user review;");

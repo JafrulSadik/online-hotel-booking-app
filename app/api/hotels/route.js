@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
 export const POST = async (request) =>  {
-    const {email, name, location, images, price, rooms, bedrooms, beds, guests, description, path} = await request.json()
+    const {email, amenities, name, location, images, price, rooms, bedrooms, beds, guests, description, path} = await request.json()
     
     try {
 
@@ -29,6 +29,7 @@ export const POST = async (request) =>  {
             beds,
             guests,
             description,
+            amenities,
             owner : userId
         }
 

@@ -1,6 +1,6 @@
 import { fetchBookingStatus } from "@/app/action/booking-actions";
 import { fetchReviewStatus } from "@/app/action/review-action";
-import { getHotelByHotelId, getHotelRating } from "@/db/query";
+import { getHotelByHotelId } from "@/db/query";
 import { getLoggedInUser } from "@/lib/auth/loggedin-user";
 import ReviewHeader from "./ReviewHeader";
 import Reviews from "./Reviews";
@@ -12,7 +12,6 @@ const ReviewSection = async ({ hotelId }) => {
       getHotelByHotelId(hotelId),
       fetchReviewStatus(hotelId),
       fetchBookingStatus(hotelId),
-      getHotelRating(hotelId),
     ]);
 
   const isHotelCreator = hotel.owner._id.toString() === user?.id;
@@ -20,9 +19,9 @@ const ReviewSection = async ({ hotelId }) => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-12 border-t">
       <ReviewHeader
-        rating={hotelRating.rating}
-        count={hotelRating.count}
         hotelId={hotelId}
+        rating={hotel?.avgRating?.toFixed(1)}
+        count={hotel.totalReviews}
         hasBookedRoom={hasBookedRoom}
         hasReviewed={hasReviewed}
         isHotelCreator={isHotelCreator}

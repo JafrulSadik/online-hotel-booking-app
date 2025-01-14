@@ -1,4 +1,4 @@
-import { getHotelByHotelId, getHotelRating } from "@/db/query";
+import { getHotelByHotelId } from "@/db/query";
 import BookingCard from "./BookingCard";
 import ImageGallery from "./ImageGallery";
 import PropertyDescription from "./PropertyDescription";
@@ -6,14 +6,14 @@ import PropertyHeader from "./PropertyHeader";
 
 const PropertyDetails = async ({ hotelId }) => {
   const hotel = await getHotelByHotelId(hotelId);
-  const hotelRating = await getHotelRating(hotelId);
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       <PropertyHeader
         name={hotel?.name}
         location={hotel?.location}
-        rating={hotelRating}
+        rating={hotel?.avgRating}
+        totalReviews={hotel?.totalReviews}
       />
 
       <ImageGallery images={hotel?.images} />
@@ -23,7 +23,8 @@ const PropertyDetails = async ({ hotelId }) => {
         <BookingCard
           hotelId={hotel?._id.toString()}
           guests={hotel?.guests}
-          price={hotel.price}
+          price={hotel?.price}
+          rating={hotel?.avgRating}
         />
       </div>
     </div>

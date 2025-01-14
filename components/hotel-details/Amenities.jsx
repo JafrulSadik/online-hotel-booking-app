@@ -1,4 +1,3 @@
-"use client";
 import {
   FaDumbbell,
   FaPersonSwimming,
@@ -7,7 +6,6 @@ import {
   FaUmbrellaBeach,
   FaWifi,
 } from "react-icons/fa6";
-import AmenityItem from "./AminityItem";
 
 const amenitiesData = [
   { icon: FaUmbrellaBeach, label: "Beach access" },
@@ -18,19 +16,23 @@ const amenitiesData = [
   { icon: FaDumbbell, label: "Fitness Center" },
 ];
 
-const Amenities = ({ amenities, onSetAmenities }) => {
+const Amenities = ({ hotel }) => {
+  const amenities =
+    amenitiesData?.filter((amenity) =>
+      hotel?.amenities?.includes(amenity.label)
+    ) || [];
+
   return (
     <div>
-      <h3 className="text-xl font-semibold mb-4">What this place offers</h3>
-      <div className="grid grid-cols-2 gap-4" id="amenities">
-        {amenitiesData.map((amenity, index) => (
-          <AmenityItem
-            key={index}
-            icon={amenity.icon}
-            label={amenity.label}
-            amenities={amenities}
-            onSetAmenities={onSetAmenities}
-          />
+      {amenities?.length > 0 && (
+        <h3 className="text-xl font-semibold mb-4">What this place offers</h3>
+      )}
+      <div className="grid grid-cols-2 gap-4">
+        {amenities?.map((amenity, index) => (
+          <div key={index} className="flex items-center gap-2">
+            <amenity.icon />
+            <span>{amenity.label}</span>
+          </div>
         ))}
       </div>
     </div>
