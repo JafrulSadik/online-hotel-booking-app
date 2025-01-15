@@ -1,5 +1,7 @@
 import LoginForm from "@/components/auth/LoginForm";
 import SocialLogin from "@/components/auth/SocialLogin";
+import { auth } from "@/lib/auth/auth";
+import { redirect } from "next/dist/server/api-utils";
 import Link from "next/link";
 
 
@@ -7,7 +9,13 @@ export const metadata = {
   title: "Hotel Booking - Login",
 };
 
-const LoginPage = () => {
+const LoginPage = async () => {
+  const session = await auth()
+
+  if(session?.user) {
+    redirect("/")
+  }
+  
   return (
     <div
       className="flex items-center justify-center mt-5"

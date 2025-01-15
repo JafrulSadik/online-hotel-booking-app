@@ -60,3 +60,13 @@ export const updateHotelByHotelId = async (hotelId, hotelData) => {
         throw new Error(err.message)
     }
 }
+
+export const createHotel = async (hotelData) => {
+    await dbConnect()
+    try {
+        const newHotel = await Hotel.create(hotelData);
+        return newHotel;
+    }catch (err){
+        throw new Error(err.message)
+    }
+}

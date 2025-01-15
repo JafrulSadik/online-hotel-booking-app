@@ -1,5 +1,6 @@
 import ManageHotelList from "@/components/manage-hotels/ManageHotelList";
 import ManageHotelSekeletonList from "@/components/skeleton/ManageHotelSkeletonList";
+import { auth } from "@/lib/auth/auth";
 import Link from "next/link";
 import { Suspense } from "react";
 

@@ -1,5 +1,6 @@
 import RegisterForm from "@/components/auth/RegisterForm";
 import GoogleIcon from "@/components/ui/svg/GoogleIcon";
+import { auth } from "@/lib/auth/auth";
 import Link from "next/link";
 
 
@@ -9,7 +10,11 @@ export const metadata = {
 };
 
 
-const RegisterPage = () => {
+const RegisterPage =  async() => {
+  const session = await auth()
+   if(session?.user) {
+      redirect("/")
+    }
   return (
     <div
       className="flex items-center justify-center mt-5"

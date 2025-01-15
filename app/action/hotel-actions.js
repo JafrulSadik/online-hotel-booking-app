@@ -1,10 +1,10 @@
 "use server"
 
 import { getBookingById, getBookingsByUserId, getHotelByHotelId } from "@/db/query";
-import { updateHotelByHotelId } from "@/db/query/hotel-query";
+import { createHotel, updateHotelByHotelId } from "@/db/query/hotel-query";
 import { getLoggedInUser } from "@/lib/auth/loggedin-user";
 import { Hotel } from "@/models/hotel-model";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export const deleteHotelByHotelId = async (hotelId) => {
     const loggedInUser = await getLoggedInUser();
@@ -110,6 +110,44 @@ export const updateHotelUsingId = async (hotelId, hotelData, images, amenities) 
         return {
             code : 200,
             message : "Hotel updated successfully."
+        }
+    }catch (err){
+        throw new Error(err.message)
+    }
+}
+
+export const createNewHotel = async (hotelData, images, amenities) => {
+    const user = await getLoggedInUser()
+
+    if(!user){
+        throw new Error("You are not authorized.")
+    }
+
+    const { name, location, price, rooms, bedrooms, beds, guests, description} = hotelData
+    
+    try {
+
+        const newHotel = {
+            name,
+            location,
+            images : [...images],
+            price,
+            rooms,
+            bedrooms,
+            beds,
+            guests,
+            description,
+            amenities : [...amenities],
+            owner : user.id
+        }
+
+        const hotel = await createHotel(newHotel)
+
+        revalidatePath(`/en/user/manage-hotels`)
+
+        return {
+            code : 200,
+            message : "Hotel created successfully."
         }
     }catch (err){
         throw new Error(err.message)

@@ -1,5 +1,6 @@
 "use client";
 
+import { createNewHotel } from "@/app/action/hotel-actions";
 import { getMissingInfo } from "@/utils/getMissingInfo";
 import {
   showConfirmationModalWithBtnName,
@@ -42,27 +43,12 @@ const Publish = ({ images, hotelInfo, amenities, session, lang }) => {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/hotels", {
-        method: "POST",
-        body: JSON.stringify({
-          ...hotelInfo,
-          images: [...images],
-          amenities: [...amenities],
-          email: session.user.email,
-          path: `/${lang}/user/manage-hotels`,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await createNewHotel(hotelInfo, images, amenities);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Something went wrong!");
+      if (response.code !== 200) {
+        throw new Error("Something went wrong!");
       }
-
-      const data = await response.json();
-      successToast(data.message);
+      successToast("Hotel published successfully!");
       router.push(`/${lang}/user/manage-hotels`);
     } catch (error) {
       showErrorModal(error.message || "An unexpected error occurred.");
