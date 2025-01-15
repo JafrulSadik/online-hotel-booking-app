@@ -1,6 +1,7 @@
 import { bookingDetails } from "@/app/action/hotel-actions";
 import { countDays } from "@/utils/countDaysDifference";
 import { getDateFormatForPayment } from "@/utils/getDateFormat";
+import Image from "next/image";
 
 const BookingDetailsCard = async ({ bookingId }) => {
   const booking = await bookingDetails(bookingId);
@@ -13,9 +14,11 @@ const BookingDetailsCard = async ({ bookingId }) => {
   return (
     <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
       <div className="flex items-start gap-6 mb-6 pb-6 border-b">
-        <img
-          src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1980&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        <Image
+          src={booking?.hotelId?.images[0]}
           alt="Property"
+          height={200}
+          width={200}
           className="w-32 h-32 rounded-lg object-cover"
         />
         <div>
@@ -26,7 +29,12 @@ const BookingDetailsCard = async ({ bookingId }) => {
             <i className="fas fa-star text-sm mr-1"></i>
             <span className="text-sm">4.6 (500+ reviews)</span>
           </div>
-          <p className="text-zinc-600">{booking?.hotelId?.description}</p>
+
+          <div className="max-w-96">
+            <p className="text-zinc-600 truncate">
+              {booking?.hotelId?.description}
+            </p>
+          </div>
         </div>
       </div>
 

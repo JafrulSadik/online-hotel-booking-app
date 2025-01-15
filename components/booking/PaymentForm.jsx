@@ -3,7 +3,9 @@
 import { hotelBooking } from "@/app/action/booking-actions";
 import { successToast } from "@/utils/notify";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { CgSpinner } from "react-icons/cg";
 import BillingAddress from "./BillingAddress";
 import Payment from "./Payment";
 
@@ -21,9 +23,12 @@ const PaymentForm = ({
     setError,
   } = useForm();
 
+  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
 
   const onSubmit = async (formData) => {
+    setLoading(true);
     const paymentDeatils = {
       cardNumber: formData.cardNumber,
       totalAmount: formData.totalAmount,
@@ -31,6 +36,8 @@ const PaymentForm = ({
       serviceFee: formData.serviceFee,
       perNightFee: formData.perNightFee,
     };
+
+    console.log(formData);
 
     const bookingDetails = {
       hotlId: hotelId,
@@ -57,6 +64,8 @@ const PaymentForm = ({
     } catch (error) {
       setError("root.random", { message: error.message });
     }
+
+    setLoading(false);
   };
 
   return (
@@ -70,8 +79,10 @@ const PaymentForm = ({
 
       <button
         type="submit"
-        className="w-full block text-center bg-primary text-white py-3 rounded-lg mt-6 hover:brightness-90"
+        disabled={loading}
+        className="w-full flex justify-center items-center gap-2 text-center bg-primary text-white py-3 rounded-lg mt-6 hover:brightness-90"
       >
+        {loading && <CgSpinner className="size-5 animate-spin" />}
         Request to book
       </button>
     </form>

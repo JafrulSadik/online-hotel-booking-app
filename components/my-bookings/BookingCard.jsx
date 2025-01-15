@@ -1,13 +1,16 @@
 import { getDateFormatForDisplay } from "@/utils/getDateFormat";
+import Image from "next/image";
 import DownloadRecipt from "./DownloadRecipt";
 
 const BookingCard = ({ booking }) => {
   return (
     <div className="bg-white shadow-md rounded-lg p-4 flex items-center justify-between hover:shadow-lg transition-shadow">
       <div className="flex items-center space-x-4">
-        <img
+        <Image
           src={booking?.hotelId?.images[0]}
           alt="Property Thumbnail"
+          height={200}
+          width={200}
           className="w-24 h-24 object-cover rounded-md"
         />
         <div>

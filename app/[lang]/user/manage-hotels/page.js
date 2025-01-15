@@ -3,6 +3,11 @@ import ManageHotelSekeletonList from "@/components/skeleton/ManageHotelSkeletonL
 import Link from "next/link";
 import { Suspense } from "react";
 
+
+export const metadata = {
+  title: "Hotel Booking - Manage Booking",
+}; 
+
 const ManageHotelPage = ({params}) => {
   const {lang} = params;
 
@@ -19,7 +24,7 @@ const ManageHotelPage = ({params}) => {
       </div>
 
       <Suspense fallback={<ManageHotelSekeletonList/>}>
-        <ManageHotelList/>
+        <ManageHotelList lang={lang}/>
       </Suspense>
     </div>
   </div>

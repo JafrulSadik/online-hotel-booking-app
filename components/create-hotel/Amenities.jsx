@@ -30,6 +30,7 @@ const Amenities = ({ amenities, onSetAmenities }) => {
             label={amenity.label}
             amenities={amenities}
             onSetAmenities={onSetAmenities}
+            checked={amenities.some((item) => item === amenity.label)}
           />
         ))}
       </div>

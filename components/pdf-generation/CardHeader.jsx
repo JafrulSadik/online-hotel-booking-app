@@ -40,8 +40,11 @@ const CardHeader = ({ booking }) => {
 
       <View style={styles.guestInfo}>
         <View style={{ display: "flex", flexDirection: "row" }}>
-          <View style={{ flex: 0.3 }}>
+          <View style={{ flex: 0.2 }}>
             <Text>Name :</Text>
+          </View>
+          <View style={{ flex: 0.1 }}>
+            <Text> : </Text>
           </View>
           <View style={{ flex: 0.7 }}>
             <Text>{booking?.userId?.name}</Text>
@@ -49,8 +52,11 @@ const CardHeader = ({ booking }) => {
         </View>
 
         <View style={{ display: "flex", flexDirection: "row" }}>
-          <View style={{ flex: 0.3 }}>
-            <Text>Email :</Text>
+          <View style={{ flex: 0.2 }}>
+            <Text>Email</Text>
+          </View>
+          <View style={{ flex: 0.1 }}>
+            <Text> : </Text>
           </View>
           <View style={{ flex: 0.7 }}>
             <Text>{booking?.userId?.email}</Text>

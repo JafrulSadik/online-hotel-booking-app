@@ -1,5 +1,11 @@
 "use client";
-const AmenityItem = ({ icon: Icon, label, amenities, onSetAmenities }) => {
+const AmenityItem = ({
+  icon: Icon,
+  label,
+  amenities,
+  onSetAmenities,
+  checked,
+}) => {
   const handleAmenities = () => {
     const aminity = amenities.find((aminity) => aminity === label);
     if (aminity) {
@@ -15,6 +21,7 @@ const AmenityItem = ({ icon: Icon, label, amenities, onSetAmenities }) => {
         type="checkbox"
         className="accent-black"
         onChange={handleAmenities}
+        checked={checked}
       />
       <div className="flex items-center gap-2 cursor-pointer">
         <Icon />

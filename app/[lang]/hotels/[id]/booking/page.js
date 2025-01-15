@@ -4,6 +4,11 @@ import { getHotelByHotelId } from "@/db/query";
 import Link from "next/link";
 import { FaChevronLeft } from "react-icons/fa6";
 
+
+export const metadata = {
+  title: "Hotel Booking - Payment",
+};
+
 const PaymentPage = async ({params : {id}}) => {
    const hotel = await getHotelByHotelId(id);
 

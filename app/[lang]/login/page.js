@@ -1,6 +1,11 @@
-import LoginForm from "@/components/auth/LoginForm"
-import SocialLogin from "@/components/auth/SocialLogin"
-import Link from "next/link"
+import LoginForm from "@/components/auth/LoginForm";
+import SocialLogin from "@/components/auth/SocialLogin";
+import Link from "next/link";
+
+
+export const metadata = {
+  title: "Hotel Booking - Login",
+};
 
 const LoginPage = () => {
   return (

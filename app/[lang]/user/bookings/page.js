@@ -1,4 +1,11 @@
-import MyBookings from "@/components/my-bookings/MyBookings"
+import MyBookings from "@/components/my-bookings/MyBookings";
+
+
+
+export const metadata = {
+  title: "Hotel Booking - My Bookings",
+};
+
 
 const BookingsPage = () => {
     return (

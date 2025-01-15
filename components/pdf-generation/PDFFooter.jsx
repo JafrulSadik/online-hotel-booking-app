@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "@react-pdf/renderer";
+import { StyleSheet, View } from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
   footer: {
@@ -12,14 +12,7 @@ const styles = StyleSheet.create({
 });
 
 const PDFFooter = () => {
-  return (
-    <View style={styles.footer}>
-      <Text style={{ textAlign: "center" }}>Tel: +1 234 567 8900</Text>
-      <Text style={{ textAlign: "center" }}>
-        Email: contact@hotel_sunshine.com
-      </Text>
-    </View>
-  );
+  return <View style={styles.footer}></View>;
 };
 
 export default PDFFooter;

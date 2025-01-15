@@ -1,7 +1,7 @@
 "use server"
-import { createBooking, getBookingByHotelIdAndUserId, getHotelByHotelId, updateHotel } from "@/db/query";
+import { createBooking, getBookingByHotelIdAndUserId, getBookingById, getHotelByHotelId, updateHotel } from "@/db/query";
 import { getLoggedInUser } from "@/lib/auth/loggedin-user";
-import { sendEmails } from "@/utils/email";
+import { sendMail } from "@/lib/emailSend";
 
 export const fetchBookingStatus = async (hotelId) => {
     const loggedInUser = await getLoggedInUser();
@@ -26,6 +26,8 @@ export const hotelBooking = async ({ paymentDetails, bookingDetails, hotelId }) 
         throw new Error("You are not authorized.")
     }
 
+    console.log(bookingDetails)
+
     try {
       const hotel = await getHotelByHotelId(hotelId);
       
@@ -46,18 +48,13 @@ export const hotelBooking = async ({ paymentDetails, bookingDetails, hotelId }) 
 
       const bookingResponse = await createBooking({bookingInfo : newBooking})
 
+      
       await updateHotel(hotelId, {rooms : hotel.rooms - 1})
+      
+      const booking = await getBookingById(bookingResponse._id);
 
-      const emailsToSend = [
-        {
-          to: loggedInUser.email,
-          subject: `Booking Confirmation in ${hotel.name}`,
-        }
-      ];
 
-      const emailSentResponse = await sendEmails(emailsToSend, bookingResponse, loggedInUser );
-
-      console.log(emailSentResponse)
+      await sendMail({booking, user : loggedInUser})
 
       return {
         bookingId : bookingResponse._id.toString()

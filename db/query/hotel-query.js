@@ -41,3 +41,18 @@ export const getHotels = async (pageNum, searchTerm, limitItem, sortType) => {
         throw new Error("Something went wrong while fetching hotels");     
     }
 }
+
+
+export const updateHotelByHotelId = async (hotelId, hotelData) => {
+    try {
+        const hotel =await Hotel.findByIdAndUpdate(hotelId, {
+            $set : {
+                ...hotelData
+            }
+        });
+
+        return hotel;
+    }catch (err){
+        throw new Error(err.message)
+    }
+}

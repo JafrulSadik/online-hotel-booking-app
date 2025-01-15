@@ -1,8 +1,10 @@
 "use server"
 
 import { getBookingById, getBookingsByUserId, getHotelByHotelId } from "@/db/query";
+import { updateHotelByHotelId } from "@/db/query/hotel-query";
 import { getLoggedInUser } from "@/lib/auth/loggedin-user";
 import { Hotel } from "@/models/hotel-model";
+import { revalidateTag } from "next/cache";
 
 export const deleteHotelByHotelId = async (hotelId) => {
     const loggedInUser = await getLoggedInUser();
@@ -76,6 +78,40 @@ export const fetchUserBookings = async () => {
     }    
 }
 
+export const updateHotelUsingId = async (hotelId, hotelData, images, amenities) => {
+    const loggedInUser = await getLoggedInUser();
 
+    if(!loggedInUser) {
+        throw new Error("You are unauthorized to update this hotel.")
+    }
 
+    const { name, location, price, rooms, bedrooms, beds, guests, description} = hotelData
+    
+    try {
 
+        const updatedHotel = {
+            name,
+            location,
+            images : [...images],
+            price,
+            rooms,
+            bedrooms,
+            beds,
+            guests,
+            description,
+            amenities : [...amenities],
+            owner : loggedInUser.id
+        }
+
+        const hotel = await updateHotelByHotelId(hotelId, updatedHotel)
+
+        revalidateTag(`/hotels/${hotelId}`)
+
+        return {
+            code : 200,
+            message : "Hotel updated successfully."
+        }
+    }catch (err){
+        throw new Error(err.message)
+    }
+}

@@ -1,6 +1,13 @@
-import RegisterForm from "@/components/auth/RegisterForm"
-import GoogleIcon from "@/components/ui/svg/GoogleIcon"
-import Link from "next/link"
+import RegisterForm from "@/components/auth/RegisterForm";
+import GoogleIcon from "@/components/ui/svg/GoogleIcon";
+import Link from "next/link";
+
+
+
+export const metadata = {
+  title: "Hotel Booking - Register",
+};
+
 
 const RegisterPage = () => {
   return (

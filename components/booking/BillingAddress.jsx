@@ -5,23 +5,23 @@ const BillingAddress = ({ errors, register }) => {
     <section className="mb-8">
       <h2 className="text-xl font-semibold mb-4">Billing address</h2>
       <div className="space-y-4">
-        <Field error={errors.strreetAddress}>
+        <Field error={errors.streetAddress}>
           <input
             type="text"
             placeholder="Street address"
             className="w-full p-3 border rounded-lg"
-            {...register("strreetAddress", {
+            {...register("streetAddress", {
               required: "Street address is required",
             })}
           />
         </Field>
 
-        <Field error={errors.apt}>
+        <Field error={errors.aptOrSuite}>
           <input
             type="text"
             placeholder="Apt or suite number"
             className="w-full p-3 border rounded-lg"
-            {...register("apt", {
+            {...register("aptOrSuite", {
               required: "Apt or suite number is required",
             })}
           />
