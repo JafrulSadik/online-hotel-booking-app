@@ -4,8 +4,10 @@ import { Booking } from "@/models/booking-model"
 import { Hotel } from "@/models/hotel-model"
 import { Review } from "@/models/review-model"
 import { User } from "@/models/user-model"
+import { dbConnect } from "@/services/dbConnection"
 
 export const getHotelsByUserInfo = async (userInfo) => {
+        await dbConnect()
     try {
         const user = await User.findOne({email : userInfo.email})
         const hotels = await Hotel.find({owner : user._id})
@@ -16,6 +18,7 @@ export const getHotelsByUserInfo = async (userInfo) => {
 }
 
 export const getHotelByHotelId = async (id) => {
+        await dbConnect()
     try {
         const hotel = await Hotel.findOne({_id : id}).populate('owner', {name : 1, _id : 1})
         return hotel
@@ -26,6 +29,7 @@ export const getHotelByHotelId = async (id) => {
 
 
 export const getUserByEmail= async (email) => {
+        await dbConnect()
     try {
         const user = await User.findOne({email}).lean();
 
@@ -44,16 +48,17 @@ export const getUserByEmail= async (email) => {
 }
 
 export const createBooking = async ({bookingInfo}) => {
+        await dbConnect()
     try {
         const newBooking = await Booking.create(bookingInfo)
         return newBooking
     } catch (error) {
-        console.log(error)
         throw new Error("Something went wrong while creating booking;")
     }
 }
 
 export const getBookingById = async (bookingId) => {
+        await dbConnect()
     try {
         const bookingDetails = await Booking.findById(bookingId).populate("userId", ["name", "email"]).populate("hotelId")
         return bookingDetails
@@ -63,6 +68,7 @@ export const getBookingById = async (bookingId) => {
 }
 
 export const getBookingByHotelIdAndUserId = async (userId, hotelId) => {
+        await dbConnect()
     try {
         const bookingDetails = await Booking.findOne({userId, hotelId})
         return !!bookingDetails
@@ -72,6 +78,7 @@ export const getBookingByHotelIdAndUserId = async (userId, hotelId) => {
 }
 
 export const updateHotel = async (hotelId, updateData) => {
+        await dbConnect()
     try {
         const updatedHotel = await Hotel.findByIdAndUpdate(
             hotelId,
@@ -85,6 +92,7 @@ export const updateHotel = async (hotelId, updateData) => {
 }
 
 export const getBookingsByUserId = async (userId) => {
+        await dbConnect()
     try {
         const bookings = await Booking.find({userId : userId}).populate("hotelId")
         return bookings

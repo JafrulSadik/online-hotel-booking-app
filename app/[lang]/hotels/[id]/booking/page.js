@@ -1,6 +1,7 @@
 
 import MainSection from "@/components/booking/MainSection";
 import { getHotelByHotelId } from "@/db/query";
+import { auth } from "@/lib/auth/auth";
 import Link from "next/link";
 import { FaChevronLeft } from "react-icons/fa6";
 
@@ -10,6 +11,10 @@ export const metadata = {
 };
 
 const PaymentPage = async ({params : {id}}) => {
+    const session = await auth()
+    if (!session?.user) {
+      redirect("/login")
+    }
    const hotel = await getHotelByHotelId(id);
 
   return (

@@ -1,5 +1,6 @@
 import { Hotel } from "@/models/hotel-model";
 import { User } from "@/models/user-model";
+import { dbConnect } from "@/services/dbConnection";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
@@ -32,6 +33,8 @@ export const POST = async (request) =>  {
             amenities,
             owner : userId
         }
+
+        await dbConnect()
 
         await Hotel.create(newHotel);
 

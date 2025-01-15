@@ -4,6 +4,9 @@ import { auth } from "@/lib/auth/auth";
 
 const EditHotelPage = async ({params}) => {
   const session = await auth();
+    if (!session?.user) {
+      redirect("/login")
+    }
   const {lang, hotelId} = params
   const hotel = await getHotelByHotelId(hotelId)
 

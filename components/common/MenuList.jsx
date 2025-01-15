@@ -36,7 +36,6 @@ const MenuList = ({ lang, user, handleSignOut, onShowMenu }) => {
         label="Bookings"
         onShowMenu={onShowMenu}
       />
-      <MenuItem href="#" label="Help" />
       <li>
         <button
           onClick={handleSignOut}

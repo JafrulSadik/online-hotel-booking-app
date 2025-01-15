@@ -8,8 +8,12 @@ export const metadata = {
   title: "Hotel Booking - Manage Booking",
 }; 
 
-const ManageHotelPage = ({params}) => {
+const ManageHotelPage = async ({params}) => {
   const {lang} = params;
+    const session = await auth()
+    if (!session?.user) {
+      redirect("/login")
+    }
 
   return (
     <div className="bg-gray-50 font-sans min-h-[calc(100vh-200px)]">

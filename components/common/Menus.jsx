@@ -12,7 +12,7 @@ const Menus = ({ lang }) => {
   const user = session?.data?.user;
 
   const handleSignOut = () => {
-    signOut({ callbackUrl: "/login" });
+    signOut({ callbackUrl: `/${lang}/login` });
   };
 
   return (

@@ -1,6 +1,8 @@
 import { Hotel } from "@/models/hotel-model"
+import { dbConnect } from "@/services/dbConnection"
 
 export const updateHotel = async (hotelId, updateData) => {
+    await dbConnect()
     try {
         const updateHotel = await Hotel.findByIdAndUpdate(hotelId, {...updateData})
         return updateHotel
@@ -17,6 +19,7 @@ export const getHotels = async (pageNum, searchTerm, limitItem, sortType) => {
     const skip = (+page - 1) * +limit;
     const search = searchTerm || "";
     try {
+        await dbConnect()
         const hotels = await Hotel.find({
             rooms : {$gt : 0}, 
             name : {$regex : search, $options : "i"}
@@ -44,6 +47,7 @@ export const getHotels = async (pageNum, searchTerm, limitItem, sortType) => {
 
 
 export const updateHotelByHotelId = async (hotelId, hotelData) => {
+    await dbConnect()
     try {
         const hotel =await Hotel.findByIdAndUpdate(hotelId, {
             $set : {

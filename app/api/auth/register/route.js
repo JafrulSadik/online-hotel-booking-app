@@ -1,8 +1,10 @@
 import { User } from "@/models/user-model";
+import { dbConnect } from "@/services/dbConnection";
 import bcryptjs from "bcryptjs";
 import { NextResponse } from "next/server";
 
 export const POST = async (request) =>  {
+    await dbConnect()
     const {fname, lname, email, password} = await request.json()
     try {
         const hashedPassword = await bcryptjs.hash(password, 10);
